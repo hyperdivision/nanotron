@@ -10,20 +10,15 @@ const path = require('path')
 const fs = require('fs')
 const pump = require('pump')
 
-let electron
 let pkg
 
-try {
-  electron = require(path.resolve('node_modules/electron'))
-} catch (_) {
-  electron = require('electron')
-}
 try {
   pkg = require(path.resolve('package.json'))
 } catch (_) {
   pkg = {}
 }
 
+const electron = localRequire('electron') || require('electron')
 const file = process.argv[2] || 'index.js'
 
 const opts = {
@@ -38,10 +33,13 @@ const opts = {
 
 const b = browserify(file, opts)
 
+const sheetify = localRequire('sheetify/transform')
+const nanohtml = localRequire('nanohtml')
+
 b.exclude('electron')
 b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
-b.transform(require('sheetify/transform'), pkg.sheetify || {})
-b.transform(require('nanohtml'))
+if (sheetify) b.transform(sheetify, pkg.sheetify || {})
+if (nanohtml) b.transform(nanohtml)
 
 b.on('error', err => console.error(err.message))
 b.on('update', () => bundle())
@@ -54,4 +52,21 @@ function bundle (cb) {
     else fs.renameSync('bundle.js.tmp', 'bundle.js')
     if (cb) cb()
   })
+}
+
+function localRequire (name) {
+  const cwd = path.resolve('.')
+
+  while (true) {
+    const nm = path.join(cwd, 'node_modules')
+
+    try {
+      return require(path.join(nm, name))
+    } catch (_) {
+    }
+
+    const next = path.join(cwd, '..')
+    if (next === cwd) return null
+    cwd = next
+  }
 }
