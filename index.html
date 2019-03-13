@@ -6,6 +6,8 @@
     }
   </script>
   <body>
-    <script src="bundle.js"></script>
+    <script>
+      document.write('<script src="' + require('path').join(process.cwd(), 'bundle.js') + '"></' + 'script>')
+    </script>
   </body>
 </html>
