@@ -55,7 +55,7 @@ function bundle (cb) {
 }
 
 function localRequire (name) {
-  const cwd = path.resolve('.')
+  let cwd = path.resolve('.')
 
   while (true) {
     const nm = path.join(cwd, 'node_modules')
