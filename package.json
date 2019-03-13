@@ -1,0 +1,29 @@
+{
+  "name": "nanotron",
+  "version": "0.0.0",
+  "description": "Small opionated dev program for developing Electron apps using the nano* stack (the modules backing Choo.js)",
+  "main": "bin.js",
+  "bin": {
+    "nanotron": "./bin.js"
+  },
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "electron": "^4.0.8",
+    "envify": "^4.1.0",
+    "nanohtml": "^1.5.0",
+    "pump": "^3.0.0",
+    "sheetify": "^7.3.3",
+    "watchify": "^3.11.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mafintosh/nanotron.git"
+  },
+  "author": "Mathias Buus (@mafintosh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafintosh/nanotron/issues"
+  },
+  "homepage": "https://github.com/mafintosh/nanotron"
+}

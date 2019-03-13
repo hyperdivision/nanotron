@@ -1,0 +1,11 @@
+<html>
+  <script>
+    const LOCAL_HTML = require('path').resolve('index.html')
+    if (require('fs').existsSync(LOCAL_HTML) && LOCAL_HTML !== __filename) {
+      window.location = LOCAL_HTML
+    }
+  </script>
+  <body>
+    <script src="bundle.js"></script>
+  </body>
+</html>
