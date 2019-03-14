@@ -24,7 +24,7 @@ const file = process.argv[2] || 'index.js'
 const opts = {
   node: true,
   fullPaths: true,
-  basedir: path.dirname(file),
+  basedir: process.cwd(),
   cache: {},
   packageCache: {},
   plugin:[ watchify ],
