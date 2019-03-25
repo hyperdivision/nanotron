@@ -19,7 +19,9 @@ try {
 }
 
 const electron = localRequire('electron') || require('electron')
-const file = process.argv[2] || 'index.js'
+const file = path.resolve(process.argv[2] || 'index.js')
+const fileDir = path.dirname(file)
+const fileBundle = path.join(fileDir, path.basename(file, '.js') + '.bundle.js')
 
 const opts = {
   node: true,
@@ -47,9 +49,9 @@ b.on('update', () => bundle())
 bundle(() => spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' }))
 
 function bundle (cb) {
-  pump(b.bundle(), fs.createWriteStream('bundle.js.tmp'), function (err) {
+  pump(b.bundle(), fs.createWriteStream(fileBundle + '.tmp'), function (err) {
     if (err) console.error(err.message)
-    else fs.renameSync('bundle.js.tmp', 'bundle.js')
+    else fs.renameSync(fileBundle + '.tmp', fileBundle)
     if (cb) cb()
   })
 }
