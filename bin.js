@@ -27,7 +27,7 @@ const opts = {
   basedir: process.cwd(),
   cache: {},
   packageCache: {},
-  plugin:[ watchify ],
+  plugin: [ watchify ],
   debug: true
 }
 
