@@ -55,18 +55,9 @@ function bundle (cb) {
 }
 
 function localRequire (name) {
-  let cwd = path.resolve('.')
+  const p = require.resolve(name, {
+    paths: [process.cwd()].concat(require.resolve.paths(name))
+  })
 
-  while (true) {
-    const nm = path.join(cwd, 'node_modules')
-
-    try {
-      return require(path.join(nm, name))
-    } catch (_) {
-    }
-
-    const next = path.join(cwd, '..')
-    if (next === cwd) return null
-    cwd = next
-  }
+  return require(p)
 }
