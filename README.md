@@ -19,7 +19,7 @@ Comes with transforms enabled for envify, sheetify, and nanohtml.
 * Uses the locally installed `electron`, otherwise the one bundled with this module.
 * If `electron.js` exists, this file will be required as part of the electron process
 * If `index.html` exists this file will be used as the html wrapper.
-* The compiled js is available as `bundle.js` in the index.html page.
+* The compiled js is available as `FILE.bundle.js` in the index.html page.
 * Loads your sheetify settings from your package.json.
 
 ## License
