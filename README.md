@@ -24,4 +24,4 @@ Comes with transforms enabled for envify, sheetify, and nanohtml.
 
 ## License
 
-MIT
+[ISC](LICENSE)
