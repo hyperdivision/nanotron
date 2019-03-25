@@ -26,7 +26,7 @@ const fileBundle = path.join(fileDir, path.basename(file, '.js') + '.bundle.js')
 const opts = {
   node: true,
   fullPaths: true,
-  basedir: process.cwd(),
+  basedir: fileDir,
   cache: {},
   packageCache: {},
   plugin: [ watchify ],
