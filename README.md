@@ -1,6 +1,6 @@
 # nanotron
 
-Small opionated dev program for developing Electron apps using the nano* stack (the modules backing Choo.js)
+Small opinionated dev program for developing Electron apps using the nano* stack (the modules backing Choo.js)
 
 ```
 npm install -g nanotron
