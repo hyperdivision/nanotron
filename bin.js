@@ -22,6 +22,7 @@ const electron = localRequire('electron') || require('electron')
 const file = path.resolve(process.argv[2] || 'index.js')
 const fileDir = path.dirname(file)
 const fileBundle = path.join(fileDir, path.basename(file, '.js') + '.bundle.js')
+process.env.BUNDLE_PATH = fileBundle
 
 const opts = {
   node: true,

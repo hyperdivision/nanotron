@@ -6,8 +6,6 @@
     }
   </script>
   <body>
-    <script>
-      document.write('<script src="' + require('path').join(process.cwd(), 'bundle.js') + '"></' + 'script>')
-    </script>
+    <script>require(process.env.BUNDLE_PATH)</script>
   </body>
 </html>
