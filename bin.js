@@ -47,7 +47,10 @@ if (nanohtml) b.transform(nanohtml)
 b.on('error', err => console.error(err.message))
 b.on('update', () => bundle())
 
-bundle(() => spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' }))
+bundle(() => {
+  const proc = spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' })
+  proc.on('close', (code) => process.exit(code))
+})
 
 function bundle (cb) {
   pump(b.bundle(), fs.createWriteStream(fileBundle + '.tmp'), function (err) {
