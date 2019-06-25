@@ -21,6 +21,8 @@ try {
 const electron = localRequire('electron') || require('electron')
 const file = path.resolve(process.argv[2] || 'index.js')
 const fileDir = path.dirname(file)
+
+if (!process.argv[2] && !fs.existsSync(file)) fs.writeFileSync(file, '')
 const fileBundle = path.join(fileDir, path.basename(file, '.js') + '.bundle.js')
 process.env.BUNDLE_PATH = fileBundle
 
