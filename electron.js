@@ -8,7 +8,11 @@ let win
 app.setName('Nanotron')
 
 app.on('ready', function () {
-  win = new BrowserWindow()
+  win = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
   win.loadURL('file://' + require.resolve('./index.html'))
   win.webContents.on('did-finish-load', () => win.webContents.openDevTools({ mode: 'detach' }))
   win.webContents.on('context-menu', onContextMenu)
