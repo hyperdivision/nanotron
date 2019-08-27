@@ -6,11 +6,23 @@ const { spawn } = require('child_process')
 const browserify = require('browserify')
 const envify = require('envify/custom')
 const watchify = require('watchify')
+const minimist = require('minimist')
 const path = require('path')
 const fs = require('fs')
 const pump = require('pump')
 
 let pkg
+const argv = minimist(process.argv.slice(2), {
+  alias: {
+    e: 'exclude',
+    h: 'help'
+  }
+})
+
+if (argv.help) {
+  console.error('nanotron [options]\n  -e, --exclude [module-name]')
+  process.exit(0)
+}
 
 try {
   pkg = require(path.resolve('package.json'))
@@ -19,7 +31,7 @@ try {
 }
 
 const electron = localRequire('electron') || require('electron')
-const file = path.resolve(process.argv[2] || 'index.js')
+const file = path.resolve(argv._[0] || 'index.js')
 const fileDir = path.dirname(file)
 
 if (!process.argv[2] && !fs.existsSync(file)) fs.writeFileSync(file, '')
@@ -42,6 +54,8 @@ const sheetify = localRequire('sheetify/transform')
 const nanohtml = localRequire('nanohtml')
 
 b.exclude('electron')
+for (const e of [].concat(argv.exclude || [])) b.exclude(e)
+
 b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
 if (sheetify) b.transform(sheetify, pkg.sheetify || {})
 if (nanohtml) b.transform(nanohtml)
