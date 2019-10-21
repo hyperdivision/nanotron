@@ -5,7 +5,15 @@ const path = require('path')
 const { BrowserWindow, app } = electron
 let win
 
-app.setName('Nanotron')
+if (fs.existsSync('package.json')) {
+  try {
+    app.setName(require(path.resolve('package.json')).name || 'Nanotron')
+  } catch (_) {
+    app.setName('Nanotron')
+  }
+} else {
+  app.setName('Nanotron')
+}
 
 app.on('ready', function () {
   win = new BrowserWindow({
