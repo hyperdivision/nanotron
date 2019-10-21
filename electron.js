@@ -7,7 +7,8 @@ let win
 
 if (fs.existsSync('package.json')) {
   try {
-    app.setName(require(path.resolve('package.json')).name || 'Nanotron')
+    const pkg = require(path.resolve('package.json'))
+    app.setName(pkg.title || pkg.name || 'Nanotron')
   } catch (_) {
     app.setName('Nanotron')
   }
