@@ -49,13 +49,13 @@ for (const e of [].concat(argv.exclude || [])) b.exclude(e)
 
 b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
 
+b.on('error', (err) => { writeError(err) })
+
 bundle(() => {
   const proc = spawn(electron, [path.join(__dirname, 'electron.js')], { stdio: 'inherit' })
   proc.on('close', (code) => process.exit(code))
 
-  b.on('error', err => {
-    console.error(err.stack)
-    fs.writeFileSync(fileBundle, `document.body.innerHTML = \`<pre style="whitespace: pre;color: red;">${err.stack.toString()}</pre>\``)
+  b.on('error', () => {
     proc.kill('SIGHUP')
   })
   b.on('update', () => bundle(() => {
@@ -65,13 +65,15 @@ bundle(() => {
 
 function bundle (cb) {
   pump(b.bundle(), fs.createWriteStream(fileBundle), function (err) {
-    if (err) {
-      console.error(err.stack)
-      fs.writeFileSync(fileBundle, `document.body.innerHTML = \`<pre style="whitespace: pre;color: red;">${err.stack.toString()}</pre>\``)
-    }
-
+    if (err) writeError(err)
     if (cb) cb()
   })
+}
+
+function writeError (err) {
+  const stack = err.stack.toString().replace(new RegExp(path.resolve(), 'g'), '.')
+  console.error(stack)
+  fs.writeFileSync(fileBundle, `document.body.innerHTML = \`<pre style="whitespace: pre;color: red;">${stack}</pre>\``)
 }
 
 function localRequire (name) {
