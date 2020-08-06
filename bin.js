@@ -8,6 +8,7 @@ const envify = require('envify/custom')
 const watchify = require('watchify')
 const minimist = require('minimist')
 const path = require('path')
+const os = require('os')
 const fs = require('fs')
 const pump = require('pump')
 
@@ -35,7 +36,7 @@ const file = path.resolve(argv._[0] || 'index.js')
 const fileDir = path.dirname(file)
 
 if (!process.argv[2] && !fs.existsSync(file)) fs.writeFileSync(file, '')
-const fileBundle = path.join(fileDir, path.basename(file, '.js') + '.bundle.js')
+const fileBundle = path.join(os.tmpdir(), path.basename(file, '.js') + '.bundle.js')
 process.env.BUNDLE_PATH = fileBundle
 
 const opts = {
@@ -69,9 +70,8 @@ bundle(() => {
 })
 
 function bundle (cb) {
-  pump(b.bundle(), fs.createWriteStream(fileBundle + '.tmp'), function (err) {
     if (err) console.error(err.message)
-    else fs.renameSync(fileBundle + '.tmp', fileBundle)
+  pump(b.bundle(), fs.createWriteStream(fileBundle), function (err) {
     if (cb) cb()
   })
 }
