@@ -1,6 +1,6 @@
 # nanotron
 
-Small opinionated dev program for developing Electron apps using the nano* stack (the modules backing Choo.js)
+Small opinionated dev program for developing Electron apps
 
 ```
 npm install -g nanotron
@@ -9,18 +9,13 @@ npm install -g nanotron
 ## Usage
 
 ```
-# Browserifies ./index.js and wraps it in a Electron shell while applying the below transforms.
-# To reload, press CMD-R.
+# Browserifies ./index.js and wraps it in a Electron shell
 nanotron
 ```
-
-Comes with transforms enabled for envify, sheetify, and nanohtml.
 
 * Uses the locally installed `electron`, otherwise the one bundled with this module.
 * If `electron.js` exists, this file will be required as part of the electron process
 * If `index.html` exists this file will be used as the html wrapper.
-* The compiled js is available as `FILE.bundle.js` in the index.html page.
-* Loads your sheetify settings from your package.json.
 
 ## License
 
