@@ -54,17 +54,28 @@ b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
 if (sheetify) b.transform(sheetify, pkg.sheetify || {})
 if (nanohtml) b.transform(nanohtml)
 
-b.on('error', err => console.error(err.message))
-b.on('update', () => bundle())
 
 bundle(() => {
   const proc = spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' })
   proc.on('close', (code) => process.exit(code))
+
+  b.on('error', err => {
+    console.error(err.stack)
+    fs.writeFileSync(fileBundle, `document.body.innerHTML = \`<pre style="whitespace: pre;color: red;">${err.stack.toString()}</pre>\``)
+    proc.kill('SIGHUP')
+  })
+  b.on('update', () => bundle(() => {
+    proc.kill('SIGHUP')
+  }))
 })
 
 function bundle (cb) {
-    if (err) console.error(err.message)
   pump(b.bundle(), fs.createWriteStream(fileBundle), function (err) {
+    if (err) {
+      console.error(err.stack)
+      fs.writeFileSync(fileBundle, `document.body.innerHTML = \`<pre style="whitespace: pre;color: red;">${err.stack.toString()}</pre>\``)
+    }
+
     if (cb) cb()
   })
 }
