@@ -38,7 +38,7 @@ const opts = {
   basedir: fileDir,
   cache: {},
   packageCache: {},
-  plugin: [ watchify ],
+  plugin: [watchify],
   debug: true
 }
 
@@ -50,7 +50,7 @@ for (const e of [].concat(argv.exclude || [])) b.exclude(e)
 b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
 
 bundle(() => {
-  const proc = spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' })
+  const proc = spawn(electron, [path.join(__dirname, 'electron.js')], { stdio: 'inherit' })
   proc.on('close', (code) => process.exit(code))
 
   b.on('error', err => {
@@ -75,7 +75,7 @@ function bundle (cb) {
 }
 
 function localRequire (name) {
-  const localPaths = [ path.join(process.cwd(), 'node_modules') ]
+  const localPaths = [path.join(process.cwd(), 'node_modules')]
   while (true) {
     const top = localPaths[localPaths.length - 1]
     const next = path.resolve(top, '../..', 'node_modules')
