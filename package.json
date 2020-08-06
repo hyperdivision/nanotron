@@ -17,12 +17,12 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/mafintosh/nanotron.git"
+    "url": "https://github.com/hyperdivision/nanotron.git"
   },
   "author": "Mathias Buus (@mafintosh)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mafintosh/nanotron/issues"
+    "url": "https://github.com/hyperdivision/nanotron/issues"
   },
-  "homepage": "https://github.com/mafintosh/nanotron"
+  "homepage": "https://github.com/hyperdivision/nanotron"
 }
