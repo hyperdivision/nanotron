@@ -25,6 +25,10 @@ app.on('ready', function () {
   win.loadURL('file://' + require.resolve('./index.html'))
   win.webContents.on('did-finish-load', () => win.webContents.openDevTools({ mode: 'detach' }))
   win.webContents.on('context-menu', onContextMenu)
+
+  process.on('SIGHUP', () => {
+    win.loadURL('file://' + require.resolve('./index.html'))
+  })
 })
 
 if (fs.existsSync('electron.js')) {
