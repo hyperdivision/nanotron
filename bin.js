@@ -12,7 +12,6 @@ const os = require('os')
 const fs = require('fs')
 const pump = require('pump')
 
-let pkg
 const argv = minimist(process.argv.slice(2), {
   alias: {
     e: 'exclude',
@@ -23,12 +22,6 @@ const argv = minimist(process.argv.slice(2), {
 if (argv.help) {
   console.error('nanotron [options]\n  -e, --exclude [module-name]')
   process.exit(0)
-}
-
-try {
-  pkg = require(path.resolve('package.json'))
-} catch (_) {
-  pkg = {}
 }
 
 const electron = localRequire('electron') || require('electron')
