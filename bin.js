@@ -44,16 +44,10 @@ const opts = {
 
 const b = browserify(file, opts)
 
-const sheetify = localRequire('sheetify/transform')
-const nanohtml = localRequire('nanohtml')
-
 b.exclude('electron')
 for (const e of [].concat(argv.exclude || [])) b.exclude(e)
 
 b.transform(envify({ NODE_ENV: process.env.NODE_ENV }))
-if (sheetify) b.transform(sheetify, pkg.sheetify || {})
-if (nanohtml) b.transform(nanohtml)
-
 
 bundle(() => {
   const proc = spawn(electron, [ path.join(__dirname, 'electron.js') ], { stdio: 'inherit' })
