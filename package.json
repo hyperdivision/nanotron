@@ -7,10 +7,10 @@
     "nanotron": "./bin.js"
   },
   "dependencies": {
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.2",
     "electron": "^9.1.0",
     "envify": "^4.1.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "pump": "^3.0.0",
     "watchify": "^3.11.1"
   },
