@@ -27,7 +27,7 @@ app.on('ready', function () {
   win.webContents.on('context-menu', onContextMenu)
 
   process.on('SIGHUP', () => {
-    win.loadURL('file://' + require.resolve('./index.html'))
+    win.loadURL(win.webContents.getURL())
   })
 })
 
