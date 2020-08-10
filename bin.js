@@ -11,6 +11,7 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 const pump = require('pump')
+const crypto = require('crypto')
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -25,11 +26,12 @@ if (argv.help) {
 }
 
 const electron = localRequire('electron') || require('electron')
-const file = path.resolve(argv._[0] || 'index.js')
+const file = resolveSync(argv._[0] || 'index.js')
 const fileDir = path.dirname(file)
+const id = crypto.createHash('sha256').update(file).digest('hex')
 
 if (!process.argv[2] && !fs.existsSync(file)) fs.writeFileSync(file, '')
-const fileBundle = path.join(os.tmpdir(), path.basename(file, '.js') + '.bundle.js')
+const fileBundle = path.join(os.tmpdir(), path.basename(file, '.js') + '.' + id + '.bundle.js')
 process.env.BUNDLE_PATH = fileBundle
 
 const opts = {
@@ -64,7 +66,9 @@ bundle(() => {
 })
 
 function bundle (cb) {
-  pump(b.bundle(), fs.createWriteStream(fileBundle), function (err) {
+  const ws = fs.createWriteStream(fileBundle)
+  ws.write('__dirname = ' + JSON.stringify(fileDir) + ';__filename =' + JSON.stringify(file) + ';')
+  pump(b.bundle(), ws, function (err) {
     if (err) writeError(err)
     if (cb) cb()
   })
@@ -94,4 +98,11 @@ function localRequire (name) {
   } catch (_) {
     return null
   }
+}
+
+function resolveSync (file) {
+  file = path.resolve(file)
+  if (!fs.existsSync(file)) return file
+  if (fs.statSync(file).isDirectory() && fs.existsSync(path.join(file, 'index.js'))) return path.join(file, 'index.js')
+  return file
 }
