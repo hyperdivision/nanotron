@@ -16,6 +16,7 @@ if (fs.existsSync('package.json')) {
   app.setName('Nanotron')
 }
 
+app.allowRendererProcessReuse = false
 app.on('ready', function () {
   win = new BrowserWindow({
     webPreferences: {
