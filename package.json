@@ -1,6 +1,6 @@
 {
   "name": "nanotron",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Small opionated dev program for developing Electron apps using the nano* stack (the modules backing Choo.js)",
   "main": "bin.js",
   "bin": {
