@@ -16,13 +16,18 @@ const crypto = require('crypto')
 const argv = minimist(process.argv.slice(2), {
   alias: {
     e: 'exclude',
-    h: 'help'
+    h: 'help',
+    w: 'warnings'
   }
 })
 
 if (argv.help) {
   console.error('nanotron [options]\n  -e, --exclude [module-name]')
   process.exit(0)
+}
+
+if (argv.warnings !== true) {
+  process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
 }
 
 const electron = localRequire('electron') || require('electron')
