@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "browserify": "^16.5.2",
-    "electron": "^9.1.0",
+    "electron": "^11.0.0",
     "envify": "^4.1.0",
     "minimist": "^1.2.5",
     "pump": "^3.0.0",
