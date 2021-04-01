@@ -20,7 +20,8 @@ app.allowRendererProcessReuse = false
 app.on('ready', function () {
   win = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
   win.loadURL('file://' + require.resolve('./index.html'))
